@@ -77,17 +77,24 @@ class App extends Component {
   }
 
   handleChange = (event) => {
-    
     const { listMovies } = this.state;
 
-   const filteredItems = listMovies.filter(item => {
-      if (event.target.value === '') {
-        return item
-      } else if (
-        item.title.toLowerCase().includes(event.target.value.toLowerCase())) {
-        return item
+    if (event.target.value === '') {
+      this.setState({
+        filteredList: listMovies
+      });
+
+      return;
+    };
+
+    const filteredItems = listMovies.filter(item => {
+      if (item.title.toLowerCase().includes(event.target.value.toLowerCase())) {
+        return true;
       }
-    })
+
+      return false;
+    });
+
     this.setState({
       filteredList: filteredItems
     })
@@ -106,11 +113,11 @@ class App extends Component {
         <ContainerMain>
           <Main>
             <BoxMap>
-              {filteredList.slice(0,8).map((item, index) => (
-                  <div key={index}>
-                    <ImgsMovie src={item.poster_path} alt="poster movies" />
-                  </div>
-                ))}
+              {filteredList.slice(0, 8).map((item, index) => (
+                <div key={index}>
+                  <ImgsMovie src={item.poster_path} alt="poster movies" />
+                </div>
+              ))}
             </BoxMap>
           </Main>
         </ContainerMain>
